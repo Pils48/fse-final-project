@@ -4,6 +4,7 @@ FROM ubuntu:20.04
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+# Install common programs
 RUN apt-get update && apt-get install -y libreadline-dev \
                                         wget \
                                         unzip \
@@ -12,16 +13,30 @@ RUN apt-get update && apt-get install -y libreadline-dev \
                                         mc \
                                         vim \
                                         sudo \
-                                        software-properties-common
+                                        software-properties-common 
 
+# Add repository for libqt4
 RUN add-apt-repository ppa:rock-core/qt4 && apt-get update 
 
+# Clone torch repository
 RUN git clone https://github.com/torch/distro.git ~/torch --recursive
 
+# Set up repository for installation
 RUN cd ~/torch && sed -i "s/python-software-properties/software-properties-common/g" install-deps
 
 RUN apt install -y python3-pip && pip3 install ipython
 
 RUN cd ~/torch && sed -i "s/ipython/python3-ipython/g" install-deps
 
-RUN cd ~/torch && bash install-deps 2> /dev/null || true && source ~/./bashrc
+RUN DEBIAN_FRONTEND=noninteractive apt-get install keyboard-configuration
+
+RUN cd ~/torch && bash install-deps 2> /dev/null || true
+
+# Torch installation
+RUN cd ~/torch && /bin/sh -c "./install.sh"
+
+# Matio installation
+RUN apt-get install -y libmatio-dev
+
+RUN echo "luarocks install matio" >> ~/.bashrc && /bin/bash -c "source ~/.bashrc" 
+
