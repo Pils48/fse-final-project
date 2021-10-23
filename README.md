@@ -1,10 +1,18 @@
-# Learning a Probabilistic Latent Space of Object Shapes via 3D Generative-Adversarial Modeling (Skoltech FSE educational project)
+# Learning a Probabilistic Latent Space of Object Shapes via 3D Generative-Adversarial Modeling
 
+**Skoltech FSE educational project.**
 This repository contains educational project based on the code from https://github.com/zck119/3dgan-release.git
 
 http://3dgan.csail.mit.edu
 
 <img src="http://3dgan.csail.mit.edu/images/results.jpg">
+
+## 
+
+This tool is a novel framework, namely 3D Generative Adversarial Network (3D-GAN), which generates 3D objects from a probabilistic space by leveraging recent advances in volumetric convolutional networks and generative adversarial nets. The benefits of the model:
+- the use of an adversarial criterion, instead of traditional heuristic criteria, enables the generator to capture object structure implicitly and to synthesize high-quality 3D objects
+- the generator establishes a mapping from a low-dimensional probabilistic space to the space of 3D objects, so that you can sample objects without a reference image or CAD models, and explore the 3D object manifold
+- the adversarial discriminator provides a powerful 3D shape descriptor which, learned without supervision, has wide applications in 3D object recognition
 
 ## Prerequisites
 #### Torch
