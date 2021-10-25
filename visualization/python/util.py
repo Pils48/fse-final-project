@@ -1,18 +1,16 @@
 import numpy as np
-import math
-import os
 from scipy import ndimage
 from scipy.io import loadmat
 
 def read_tensor(filename, varname='voxels'):
     """ return a 4D matrix, with dimensions point, x, y, z """
-    assert(filename[-4:] == '.mat')
+    assert filename[-4:] == '.mat'
     mats = loadmat(filename)
     if varname not in mats:
-        print ".mat file only has these matrices:",
-        for var in mats: 
-            print var,
-        assert(False)
+        print(".mat file only has these matrices:")
+        for var in mats:
+            print(var)
+        assert False 
 
     voxels = mats[varname]
     dims = voxels.shape
@@ -22,16 +20,16 @@ def read_tensor(filename, varname='voxels'):
     elif len(dims) == 3:
         dims = (1) + dims
     else:
-        assert len(dims) == 4    
+        assert len(dims) == 4
     result = np.reshape(voxels, dims)
     return result
 
 def sigmoid(z, offset=0, ratio=1):
     s = 1.0 / (1.0 + np.exp(-1.0 * (z-offset) * ratio))
     return s
-    
+
 ############################################################################
-### Voxel Utility functions 
+### Voxel Utility functions
 ############################################################################
 def blocktrans_cen2side(cen_size):
     """ Convert from center rep to side rep
@@ -43,16 +41,16 @@ def blocktrans_cen2side(cen_size):
     sx = float(cen_size[3])
     sy = float(cen_size[4])
     sz = float(cen_size[5])
-    lx,ly,lz = cx-sx/2., cy-sy/2., cz-sz/2.
-    hx,hy,hz = cx+sx/2., cy+sy/2., cz+sz/2.
-    return [lx,ly,lz,hx,hy,hz]
+    lx, ly, lz = cx-sx/2., cy-sy/2., cz-sz/2.
+    hx, hy, hz = cx+sx/2., cy+sy/2., cz+sz/2.
+    return [lx, ly, lz, hx, hy, hz]
 
 def blocktrans_side2cen6(side_size):
     """ Convert from side rep to center rep
     In center rep, the 6 numbers are center coordinates, then size in 3 dims
     In side rep, the 6 numbers are lower x, y, z, then higher x, y, z """
-    lx,ly,lz = float(side_size[0]), float(side_size[1]), float(side_size[2])
-    hx,hy,hz = float(side_size[3]), float(side_size[4]), float(side_size[5])
+    lx, ly, lz = float(side_size[0]), float(side_size[1]), float(side_size[2])
+    hx, hy, hz = float(side_size[3]), float(side_size[4]), float(side_size[5])
     return [(lx+hx)*.5,(ly+hy)*.5,(lz+hz)*.5,abs(hx-lx),abs(hy-ly),abs(hz-lz)]
 
 
@@ -67,7 +65,7 @@ def center_of_mass(voxels, threshold=0.1):
 
     total = voxels_filtered.sum()
     if total == 0:
-        print 'threshold too high for current object.'
+        print('threshold too high for current object.')
         return [length / 2 for length in voxels.shape]   
     
     # calculate center of mass
