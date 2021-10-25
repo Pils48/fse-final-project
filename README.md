@@ -1,7 +1,8 @@
 # Learning a Probabilistic Latent Space of Object Shapes via 3D Generative-Adversarial Modeling
 
 **Skoltech FSE educational project.**
-This repository contains educational project based on the code from https://github.com/zck119/3dgan-release.git
+This repository is not an original official implementation of the work, but a refactored codebase based on the code from https://github.com/zck119/3dgan-release.git
+Performed within the FSE coursework at Skoltech.
 
 http://3dgan.csail.mit.edu
 
