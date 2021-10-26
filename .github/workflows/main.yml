@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -33,9 +33,5 @@ jobs:
 
       # - run: docker pull piliushok48/fse-final-project:latest
 
-      # - run: ./download_demo_inputs.sh && ./download_models_cpu.sh && ./download_models_gpu.s
-
-      # - run: docker run -it -v .:/project \
-      #           --net=host \
-      #           piliushok48/fse-final-project:latest
+      - run: ./download_demo_inputs.sh && ./download_models_cpu.sh && ./download_models_gpu.sh
       
