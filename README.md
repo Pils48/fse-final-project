@@ -17,8 +17,6 @@ This tool is a novel framework which generates 3D objects from a probabilistic s
 - the generator establishes a mapping from a low-dimensional probabilistic space to the space of 3D objects, so that you can sample objects without a reference image or CAD models, and explore the 3D object manifold
 - the adversarial discriminator provides a powerful 3D shape descriptor which, learned without supervision, has wide applications in 3D object recognition
 
-## Getting started
-
 ## Prerequisites
 #### Torch
 We use Torch 7 (http://torch.ch) for our implementation with these additional packages:
