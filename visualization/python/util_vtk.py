@@ -63,8 +63,8 @@ def generate_all_blocks(voxels, threshold=0.1, uniform_size=-1, use_colormap=Fal
         for j in xrange(dims[1]):
             for i in xrange(dims[0]):
                 occupancy = voxels[i][j][k]
-                    if occupancy < threshold:
-                        continue
+                if occupancy < threshold:
+                    continue
 
                     if use_colormap:
                         color = cmap(float(occupancy))
