@@ -15,11 +15,9 @@ def block_generation(cen_size, color):
     cubeActor = vtk.vtkActor()
 
     lx, ly, lz, hx, hy, hz = blocktrans_cen2side(cen_size)
-    vertices = [[lx, ly, lz], [hx, ly, lz], [hx, hy, lz], [lx, hy, lz],
-    [lx, ly, hz], [hx, ly, hz], [hx, hy, hz], [lx, hy, hz]]
+    vertices = [[lx, ly, lz], [hx, ly, lz], [hx, hy, lz], [lx, hy, lz], [lx, ly, hz], [hx, ly, hz], [hx, hy, hz], [lx, hy, hz]]
 
-    pts =[[0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4],
-    [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]]
+    pts =[[0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]]
 
     cube = vtk.vtkPolyData()
     points = vtk.vtkPoints()
