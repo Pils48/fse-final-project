@@ -2,7 +2,8 @@
 VTK functions
 """
 import math
-from util import read_tensor, blocktrans_cen2side, center_of_mass
+import numpy as np
+from util import blocktrans_cen2side, center_of_mass
 import matplotlib.cm
 import vtk
 
@@ -16,7 +17,8 @@ def block_generation(cen_size, color):
     cube_actor = vtk.vtkActor()
 
     l_x, l_y, l_z, h_x, h_y, h_z = blocktrans_cen2side(cen_size)
-    vertices = [[l_x, l_y, l_z], [h_x, l_y, l_z], [h_x, h_y, l_z], [l_x, h_y, l_z], [l_x, l_y, h_z], [h_x, l_y, h_z], [h_x, h_y, h_z], [l_x, h_y, h_z]]
+    vertices = [[l_x, l_y, l_z], [h_x, l_y, l_z], [h_x, h_y, l_z], [l_x, h_y, l_z],
+                [l_x, l_y, h_z], [h_x, l_y, h_z], [h_x, h_y, h_z], [l_x, h_y, h_z]]
 
     pts = [[0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]]
 
@@ -24,12 +26,12 @@ def block_generation(cen_size, color):
     points = vtk.vtkPoints()
     polys = vtk.vtkCellArray()
 
-    for i in xrange(0, 8):
+    for i in range(0, 8):
         points.InsertPoint(i, vertices[i])
 
-    for i in xrange(0, 6):
+    for i in range(0, 6):
         polys.InsertNextCell(4)
-        for j in xrange(0, 4):
+        for j in range(0, 4):
             polys.InsertCellPoint(pts[i][j])
     cube.SetPoints(points)
     cube.SetPolys(polys)
@@ -58,27 +60,27 @@ def generate_all_blocks(voxels, threshold=0.1, uniform_size=-1, use_colormap=Fal
     dims = voxels.shape
 
     cmap = matplotlib.cm.get_cmap('jet')
-    DEFAULT_COLOR = [0.9, 0, 0]
+    default_color = [0.9, 0, 0]
 
-    for k in xrange(dims[2]):
-        for j in xrange(dims[1]):
-            for i in xrange(dims[0]):
+    for k in range(dims[2]):
+        for j in range(dims[1]):
+            for i in range(dims[0]):
                 occupancy = voxels[i][j][k]
                 if occupancy < threshold:
                     continue
 
-                    if use_colormap:
-                        color = cmap(float(occupancy))
-                    else:    # use default color
-                        color = DEFAULT_COLOR
+                if use_colormap:
+                    color = cmap(float(occupancy))
+                else:    # use default color
+                    color = default_color
 
-                    if uniform_size > 0 and uniform_size <= 1:
-                        block_size = uniform_size
-                    else:
-                        block_size = occupancy
-                    block = block_generation([i+0.5, j+0.5, k+0.5, block_size, block_size, block_size], color=(color))
-                    actors.append(block)
-                    counter = counter + 1
+                if 0 < uniform_size <= 1:
+                    block_size = uniform_size
+                else:
+                    block_size = occupancy
+                block = [i+0.5, j+0.5, k+0.5, block_size, block_size, block_size]
+                actors.append(block_generation(block, color=(color)))
+                counter = counter + 1
 
     print(counter, "blocks filled")
     return actors
@@ -91,7 +93,7 @@ def display(actors, cam_pos, cam_vocal, cam_up, title=None):
     title: display window title
     """
 
-    renWin = vtk.vtkRenderWindow()
+    ren_win = vtk.vtkRenderWindow()
     window_size = 1024
 
     renderer = vtk.vtkRenderer()
@@ -114,8 +116,8 @@ def display(actors, cam_pos, cam_vocal, cam_up, title=None):
     iren = vtk.vtkRenderWindowInteractor()
     style = vtk.vtkInteractorStyleTrackballCamera()
     iren.SetInteractorStyle(style)
-    iren.SetRenderWindow(renWin)
-    if title != None:
+    iren.SetRenderWindow(ren_win)
+    if title is not None:
         renWin.SetWindowName(title)
 
     renderer.ResetCameraClippingRange()
@@ -139,7 +141,6 @@ def visualization(voxels, threshold, title=None, uniform_size=-1, use_colormap=F
                                  uniform_size=uniform_size, use_colormap=use_colormap)
 
     center = center_of_mass(voxels)
-    dims = voxels.shape
     distance = voxels.shape[0] * 2.8
     height = voxels.shape[2] * 0.85
     rad = math.pi * 0.43 #+ math.pi
