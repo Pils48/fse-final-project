@@ -29,7 +29,7 @@ jobs:
 
       - uses: actions/checkout@v2
       
-      # - uses: docker://piliushok48/fse-final-project:latest
+      - uses: docker://piliushok48/fse-final-project:latest
 
       # - run: docker pull piliushok48/fse-final-project:latest
 
