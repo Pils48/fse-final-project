@@ -22,12 +22,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: docker://piliushok48/fse-final-project:latest
 
       - run: ls
 
-      # - run: ./download_demo_inputs.sh && ./download_models_cpu.sh && ./download_models_gpu.sh
-      
-      - run: docker pull piliushok48/fse-final-project:latest
+      # - run: ./download_demo_inputs.sh && ./download_models_cpu.sh && ./download_models_gpu.s
 
       - run: docker run -it -v .:/project \
                 --net=host \
