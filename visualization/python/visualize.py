@@ -42,23 +42,23 @@ if __name__ == '__main__':
 
     # read file
     print("==> Reading input voxel file: "+FILENAME)
-    voxels_raw = read_tensor(FILENAME, MATNAME)
+    VOXELS_RAW = read_tensor(FILENAME, MATNAME)
     print("Done")
 
-    voxels = voxels_raw[IND]
+    VOXELS = VOXELS_RAW[IND]
 
     # keep only max connected component
     print("Looking for max connected component")
     if CONNECT > 0:
-        voxels_keep = (voxels >= THRESHOLD)
-        voxels_keep = max_connected(voxels_keep, CONNECT)
-        voxels[np.logical_not(voxels_keep)] = 0
+        VOXELS_KEEP = (VOXELS >= THRESHOLD)
+        VOXELS_KEEP = max_connected(VOXELS_KEEP, CONNECT)
+        VOXELS[np.logical_not(VOXELS_KEEP)] = 0
 
     # downsample if needed
     if DOWNSAMPLE_FACTOR > 1:
         print("==> Performing downsample: factor: "+str(DOWNSAMPLE_FACTOR)+" method: "+DOWNSAMPLE_METHOD)
-        voxels = downsample(voxels, DOWNSAMPLE_FACTOR, method=DOWNSAMPLE_METHOD)
+        VOXELS = downsample(VOXELS, DOWNSAMPLE_FACTOR, method=DOWNSAMPLE_METHOD)
         print("Done")
 
-    visualization(voxels, THRESHOLD, title=str(ind+1)+'/'+str(voxels_raw.shape[0]),
+    visualization(VOXELS, THRESHOLD, title=str(IND+1)+'/'+str(VOXELS_RAW.shape[0]),
                   uniform_size=UNIFORM_SIZE, use_colormap=USE_COLORMAP)
