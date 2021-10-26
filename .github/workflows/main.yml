@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker://piliushok48/fse-final-project:latest
 
-      - run: ls
+      - run: sudo docker pull piliushok48/fse-final-project:latest
 
       # - run: ./download_demo_inputs.sh && ./download_models_cpu.sh && ./download_models_gpu.s
 
