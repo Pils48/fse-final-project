@@ -34,11 +34,24 @@ We use Torch 7 (http://torch.ch) for our implementation with these additional pa
 ## Installation
 Our current release has been tested on Ubuntu 14.04.
 
+### Dependencies
+You can install needed dependecies by yourself if needed:
+* Update your local cache `sudo apt-get update`
+* `sudo apt-get install -y libreadline-dev`
+* `sudo apt-get install -y wget`
+* `sudo apt-get install -y unzip`
+* `sudo apt-get install -y curl`
+* `sudo apt-get install -y git`
+* `sudo apt-get install -y mc`
+* `sudo apt-get install -y vim`
+* `sudo apt-get install -y software-properties-common `
+
 #### Cloning the repository
 ```sh
 git clone git@github.com:zck119/3dgan-release.git
 cd 3dgan-release
 ```
+                                       
 
 #### Downloading pretrained models 
 For CPU (947 MB):
