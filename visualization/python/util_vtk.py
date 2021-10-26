@@ -1,11 +1,12 @@
-from util import * 
+"""
+VTK functions
+"""
+from util import *
 import matplotlib.cm
 import vtk
 import math
 
-############################################################################
-### VTK functions 
-############################################################################
+
 def block_generation(cen_size, color):
     """ generate a block up to actor stage
         User may choose to use VTK boxsource implementation, or the polydata implementation
