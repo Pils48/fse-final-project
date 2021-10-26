@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y libreadline-dev \
                                         unzip \
                                         curl \
                                         git \
-                                        mc \
                                         vim \
                                         sudo \
                                         software-properties-common \
@@ -29,3 +28,7 @@ RUN cd ~/torch && /bin/sh -c "./install.sh"
 
 RUN echo "luarocks install matio" >> ~/.bashrc && /bin/bash -c "source ~/.bashrc" 
 
+RUN apt-get install -y python3-pip && pip3 install numpy \
+                                                scipy \
+                                                matplotlib \
+                                                vtk
