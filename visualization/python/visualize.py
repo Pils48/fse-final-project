@@ -21,8 +21,8 @@ if __name__ == '__main__':
                             help="downsample objects via a max pooling of step STEPSIZE\
                             for efficiency. Currently supporting STEPSIZE 1, 2, and 4.")
     CMD_PARSER.add_argument('-dm', '--downsample-method', metavar='downsample_method', type=str,
-                            default='max', help='downsample method, where mean stands for average pooling\
-                            and max for max pooling')
+                            default='max', help='downsample method, where mean stands\
+                            for average pooling and max for max pooling')
     CMD_PARSER.add_argument('-u', '--uniform-size', metavar='uniform_size', type=float, default=0.9,
                             help='set the size of the voxels to BLOCK_SIZE')
     CMD_PARSER.add_argument('-cm', '--colormap', action="store_true",
@@ -38,13 +38,13 @@ if __name__ == '__main__':
     MATNAME = 'voxels'
     THRESHOLD = ARGS.threshold
     IND = ARGS.index - 1 # matlab use 1 base index
-    DOWNSAMPLE_FACTOR = ARGS.downsample_factor
-    DOWNSAMPLE_METHOD = ARGS.downsample_method
+    FACTOR = ARGS.downsample_factor
+    METHOD = ARGS.downsample_method
     UNIFORM_SIZE = ARGS.uniform_size
     USE_COLORMAP = ARGS.colormap
     CONNECT = ARGS.max_component
 
-    assert DOWNSAMPLE_METHOD in ('max', 'mean')
+    assert METHOD in ('max', 'mean')
 
     # read file
     print("==> Reading input voxel file: "+FILENAME)
@@ -62,8 +62,8 @@ if __name__ == '__main__':
 
     # downsample if needed
     if DOWNSAMPLE_FACTOR > 1:
-        print("==> Performing downsample: factor: "+str(DOWNSAMPLE_FACTOR)+" method: "+DOWNSAMPLE_METHOD)
-        VOXELS = downsample(VOXELS, DOWNSAMPLE_FACTOR, method=DOWNSAMPLE_METHOD)
+        print("==> Performing downsample: factor: "+str(FACTOR)+" method: "+METHOD)
+        VOXELS = downsample(VOXELS, FACTOR, method=METHOD)
         print("Done")
 
     visualization(VOXELS, THRESHOLD, title=str(IND+1)+'/'+str(VOXELS_RAW.shape[0]),
