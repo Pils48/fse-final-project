@@ -46,8 +46,7 @@ You can install needed dependecies by yourself if needed:
 
 ### Cloning the repository
 ```sh
-git clone git@github.com:zck119/3dgan-release.git
-cd 3dgan-release
+git clone https://github.com/Pils48/fse-final-project.git
 ```
                                        
 
@@ -67,7 +66,8 @@ For GPU (618 MB):
 ```
 
 ## Docker Container Installation
-To use docker run the following shell scripts:
+To use docker clone repository and run the following shell scripts:
+* `git clone https://github.com/Pils48/fse-final-project.git` to clone repository
 * `./install_docker.sh` in case you don't have docker installed
 * `./build_docker.sh`
 * `./run_docker.sh`
