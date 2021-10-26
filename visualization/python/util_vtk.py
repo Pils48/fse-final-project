@@ -24,12 +24,12 @@ def block_generation(cen_size, color):
     polys = vtk.vtkCellArray()
 
     for i in xrange(0, 8):
-      points.InsertPoint(i, vertices[i])
+        points.InsertPoint(i, vertices[i])
 
     for i in xrange(0, 6):
-      polys.InsertNextCell(4)
-      for j in xrange(0, 4):
-        polys.InsertCellPoint(pts[i][j])
+        polys.InsertNextCell(4)
+        for j in xrange(0, 4):
+            polys.InsertCellPoint(pts[i][j])
     cube.SetPoints(points)
     cube.SetPolys(polys)
     cubeMapper.SetInput(cube)
@@ -62,7 +62,7 @@ def generate_all_blocks(voxels, threshold=0.1, uniform_size=-1, use_colormap=Fal
     for k in xrange(dims[2]):
         for j in xrange(dims[1]):
             for i in xrange(dims[0]):
-                    occupancy = voxels[i][j][k]
+                occupancy = voxels[i][j][k]
                     if occupancy < threshold:
                         continue
 
