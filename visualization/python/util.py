@@ -101,8 +101,8 @@ def downsample(voxels, step, method='max'):
 
     if voxels.ndim == 3:
         s_x, s_y, s_z = voxels.shape[-3:]
-        X, Y, Z = np.ogrid[0:s_x, 0:s_y, 0:s_z]
-        regions = s_z/step * s_y/step * (X/step) + s_z/step * (Y/step) + Z/step
+        r_X, r_Y, r_Z = np.ogrid[0:s_x, 0:s_y, 0:s_z]
+        regions = s_z/step * s_y/step * (r_X/step) + s_z/step * (r_Y/step) + r_Z/step
         if method == 'max':
             res = ndimage.maximum(voxels, labels=regions, index=np.arange(regions.max() + 1))
         elif method == 'mean':
@@ -141,7 +141,7 @@ def max_connected(voxels, distance):
                     for i in range(coord_x-distance, coord_x+distance + 1):
                         for j in range(coord_y-distance, coord_y+distance + 1):
                             for k in range(coord_z-distance, coord_z+distance + 1):
-                                if (i-coord_x)**2+(j-coord_y)**2+(k-coord_z)**2 > distance * distance:
+                                if (i-coord_x)**2+(j-coord_y)**2+(k-coord_z)**2 > distance*distance:
                                     continue
                                 if voxel_exist(voxels, i, j, k):
                                     voxels[i, j, k] = False
