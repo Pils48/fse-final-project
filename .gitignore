@@ -6,3 +6,6 @@ output
 *.bmp
 *.jpg
 *.png
+
+__pycache__
+.vscode
