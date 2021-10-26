@@ -101,7 +101,7 @@ def downsample(voxels, step, method='max'):
 
     if voxels.ndim == 3:
         s_x, s_y, s_z = voxels.shape[-3:]
-        r_x, r_x, r_z = np.ogrid[0:s_x, 0:s_y, 0:s_z]
+        r_x, r_y, r_z = np.ogrid[0:s_x, 0:s_y, 0:s_z]
         regions = s_z/step * s_y/step * (r_x/step) + s_z/step * (r_y/step) + r_z/step
         if method == 'max':
             res = ndimage.maximum(voxels, labels=regions, index=np.arange(regions.max() + 1))
