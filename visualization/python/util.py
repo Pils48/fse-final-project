@@ -115,31 +115,31 @@ def max_connected(voxels, distance):
     for startx in xrange(voxels.shape[0]):
         for starty in xrange(voxels.shape[1]):
             for startz in xrange(voxels.shape[2]):
-                if not voxels[startx,starty,startz]:
+                if not voxels[startx, starty, startz]:
                     continue
                 # start a new component
                 component = np.zeros(voxels.shape, dtype=bool)
-                stack = [[startx,starty,startz]]
-                component[startx,starty,startz] = True
-                voxels[startx,starty,startz] = False
+                stack = [[startx, starty, startz]]
+                component[startx, starty, startz] = True
+                voxels[startx, starty, startz] = False
                 while len(stack) > 0:
-                    x,y,z = stack.pop()
+                    x, y, z = stack.pop()
                     for i in xrange(x-distance, x+distance + 1):
                         for j in xrange(y-distance, y+distance + 1):
                             for k in xrange(z-distance, z+distance + 1):
                                 if (i-x)**2+(j-y)**2+(k-z)**2 > distance * distance:
                                     continue
-                                if voxel_exist(voxels, i,j,k):
-                                    voxels[i,j,k] = False
-                                    component[i,j,k] = True
-                                    stack.append([i,j,k])
+                                if voxel_exist(voxels, i, j, k):
+                                    voxels[i, j, k] = False
+                                    component[i, j, k] = True
+                                    stack.append([i, j, k])
                 if component.sum() > max_component.sum():
                     max_component = component
     return max_component
 
 
-def voxel_exist(voxels, x,y,z):
+def voxel_exist(voxels, x, y, z):
     if x < 0 or y < 0 or z < 0 or x >= voxels.shape[0] or y >= voxels.shape[1] or z >= voxels.shape[2]:
         return False
     else:
-        return voxels[x,y,z]
+        return voxels[x, y, z]
