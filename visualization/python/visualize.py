@@ -29,14 +29,14 @@ if __name__ == '__main__':
     assert downsample_method in ('max', 'mean')
 
     # read file
-    print "==> Reading input voxel file: "+filename,
+    print("==> Reading input voxel file: "+filename)
     voxels_raw = read_tensor(filename, matname)
-    print "Done"
+    print("Done")
 
     voxels = voxels_raw[ind]
 
     # keep only max connected component
-    print "Looking for max connected component"
+    print("Looking for max connected component")
     if connect > 0: 
         voxels_keep = (voxels >= threshold)
         voxels_keep = max_connected(voxels_keep, connect)
@@ -44,8 +44,8 @@ if __name__ == '__main__':
 
     # downsample if needed
     if downsample_factor > 1:
-        print "==> Performing downsample: factor: "+str(downsample_factor)+" method: "+downsample_method,
+        print("==> Performing downsample: factor: "+str(downsample_factor)+" method: "+downsample_method)
         voxels = downsample(voxels, downsample_factor, method=downsample_method)
-        print "Done"
+        print("Done")
 
     visualization(voxels, threshold, title=str(ind+1)+'/'+str(voxels_raw.shape[0]), uniform_size=uniform_size, use_colormap=use_colormap)
