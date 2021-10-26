@@ -27,18 +27,18 @@ if __name__ == '__main__':
     CMD_PARSER.add_argument('-mc', '--max-component', metavar='max_component', type=int, default=3,
                             help='whether to keep only the maximal connected component, where voxels of distance no larger than `DISTANCE` are considered connected. Set to 0 to disable this function.')
 
-    args = CMD_PARSER.parse_args()
-    filename = args.filename
-    matname = 'voxels'
-    threshold = args.threshold
-    ind = args.index - 1 # matlab use 1 base index
-    downsample_factor = args.downsample_factor
-    downsample_method = args.downsample_method
-    uniform_size = args.uniform_size
-    use_colormap = args.colormap
-    connect = args.max_component
+    ARGS = CMD_PARSER.parse_args()
+    FILENAME = ARGS.filename
+    MATNAME = 'voxels'
+    THRESHOLD = ARGS.threshold
+    IND = ARGS.index - 1 # matlab use 1 base index
+    DOWNSAMPLE_FACTOR = ARGS.downsample_factor
+    DOWNSAMPLE_METHOD = ARGS.downsample_method
+    UNIFORM_SIZE = ARGS.uniform_size
+    USE_COLORMAP = ARGS.colormap
+    CONNECT = ARGS.max_component
 
-    assert downsample_method in ('max', 'mean')
+    assert DOWNSAMPLE_METHOD in ('max', 'mean')
 
     # read file
     print("==> Reading input voxel file: "+filename)
@@ -49,16 +49,16 @@ if __name__ == '__main__':
 
     # keep only max connected component
     print("Looking for max connected component")
-    if connect > 0:
-        voxels_keep = (voxels >= threshold)
-        voxels_keep = max_connected(voxels_keep, connect)
+    if CONNECT > 0:
+        voxels_keep = (voxels >= THRESHOLD)
+        voxels_keep = max_connected(voxels_keep, CONNECT)
         voxels[np.logical_not(voxels_keep)] = 0
 
     # downsample if needed
-    if downsample_factor > 1:
-        print("==> Performing downsample: factor: "+str(downsample_factor)+" method: "+downsample_method)
-        voxels = downsample(voxels, downsample_factor, method=downsample_method)
+    if DOWNSAMPLE_FACTOR > 1:
+        print("==> Performing downsample: factor: "+str(DOWNSAMPLE_FACTOR)+" method: "+DOWNSAMPLE_METHOD)
+        voxels = downsample(voxels, DOWNSAMPLE_FACTOR, method=DOWNSAMPLE_METHOD)
         print("Done")
 
-    visualization(voxels, threshold, title=str(ind+1)+'/'+str(voxels_raw.shape[0]),
-                  uniform_size=uniform_size, use_colormap=use_colormap)
+    visualization(voxels, THRESHOLD, title=str(ind+1)+'/'+str(voxels_raw.shape[0]),
+                  uniform_size=UNIFORM_SIZE, use_colormap=USE_COLORMAP)
