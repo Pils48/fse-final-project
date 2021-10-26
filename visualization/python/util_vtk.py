@@ -80,7 +80,7 @@ def generate_all_blocks(voxels, threshold=0.1, uniform_size=-1, use_colormap=Fal
                     actors.append(block_generation([i+0.5, j+0.5, k+0.5, block_size, block_size, block_size], color=(color)))
                     counter = counter + 1
 
-    print counter, "blocks filled"
+    print(counter, "blocks filled")
     return actors
 
 def display(actors, cam_pos, cam_vocal, cam_up, title=None):
