@@ -2,9 +2,7 @@
 Visualization module
 """
 
-import os
-import os.path
-from util import *
+from util import read_tensor, downsample, max_connected
 from util_vtk import visualization
 
 if __name__ == '__main__':
