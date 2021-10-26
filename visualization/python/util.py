@@ -54,7 +54,13 @@ def blocktrans_side2cen6(side_size):
     In side rep, the 6 numbers are lower x, y, z, then higher x, y, z """
     lower_x, lower_y, lower_z = float(side_size[0]), float(side_size[1]), float(side_size[2])
     high_x, high_y, high_z = float(side_size[3]), float(side_size[4]), float(side_size[5])
-    return [(lower_x+high_x)*.5, (lower_y+high_y)*.5, (lower_z+high_z)*.5, abs(high_x-lower_x), abs(high_y-lower_y), abs(high_z-lower_z)]
+    half_x = (lower_x+high_x)*.5
+    half_y = (lower_y+high_y)*.5
+    half_z = (lower_z+high_z)*.5
+    abs_x = abs(high_x-lower_x)
+    abs_y = abs(high_y-lower_y)
+    abs_z = abs(high_z-lower_z)
+    return [half_x, half_y, half_z, abs_x, abs_y, abs_z]
 
 
 def center_of_mass(voxels, threshold=0.1):
@@ -104,20 +110,22 @@ def downsample(voxels, step, method='max'):
         res0 = downsample(voxels[0], step, method)
         res = np.zeros((voxels.shape[0],) + res0.shape)
         res[0] = res0
-        for ind in xrange(1, voxels.shape[0]):
+        for ind in range(1, voxels.shape[0]):
             res[ind] = downsample(voxels[ind], step, method)
         return res
 
 def max_connected(voxels, distance):
-    """ Keep the max connected component of the voxels (a boolean matrix).
+    """
+    Keep the max connected component of the voxels (a boolean matrix).
     distance is the distance considered as neighbors, i.e. if distance = 2,
-    then two blocks are considered connected even with a hole in between"""
+    then two blocks are considered connected even with a hole in between
+    """
     assert distance > 0
     max_component = np.zeros(voxels.shape, dtype=bool)
     voxels = np.copy(voxels)
-    for start_x in xrange(voxels.shape[0]):
-        for start_y in xrange(voxels.shape[1]):
-            for start_z in xrange(voxels.shape[2]):
+    for start_x in range(voxels.shape[0]):
+        for start_y in range(voxels.shape[1]):
+            for start_z in range(voxels.shape[2]):
                 if not voxels[start_x, start_y, start_z]:
                     continue
                 # start a new component
@@ -127,9 +135,9 @@ def max_connected(voxels, distance):
                 voxels[start_x, start_y, start_z] = False
                 while len(stack) > 0:
                     x, y, z = stack.pop()
-                    for i in xrange(x-distance, x+distance + 1):
-                        for j in xrange(y-distance, y+distance + 1):
-                            for k in xrange(z-distance, z+distance + 1):
+                    for i in range(x-distance, x+distance + 1):
+                        for j in range(y-distance, y+distance + 1):
+                            for k in range(z-distance, z+distance + 1):
                                 if (i-x)**2+(j-y)**2+(k-z)**2 > distance * distance:
                                     continue
                                 if voxel_exist(voxels, i, j, k):
@@ -142,6 +150,9 @@ def max_connected(voxels, distance):
 
 
 def voxel_exist(voxels, x, y, z):
+    """
+    Check if voxels are in given bounds
+    """
     if x < 0 or y < 0 or z < 0 or x >= voxels.shape[0] or y >= voxels.shape[1] or z >= voxels.shape[2]:
         return False
     else:
