@@ -1,3 +1,7 @@
+"""
+Tools for the next steps of visualization
+"""
+
 import numpy as np
 from scipy import ndimage
 from scipy.io import loadmat
@@ -24,11 +28,11 @@ def read_tensor(filename, varname='voxels'):
     result = np.reshape(voxels, dims)
     return result
 
-def sigmoid(z, offset=0, ratio=1):
+def sigmoid(z_var, offset=0, ratio=1):
     """
     Sigmoid function
     """
-    s = 1.0 / (1.0 + np.exp(-1.0 * (z-offset) * ratio))
+    s = 1.0 / (1.0 + np.exp(-1.0 * (z_var-offset) * ratio))
     return s
 
 ############################################################################
@@ -97,14 +101,14 @@ def downsample(voxels, step, method='max'):
         return voxels
 
     if voxels.ndim == 3:
-        sx, sy, sz = voxels.shape[-3:]
-        X, Y, Z = np.ogrid[0:sx, 0:sy, 0:sz]
-        regions = sz/step * sy/step * (X/step) + sz/step * (Y/step) + Z/step
+        s_x, s_y, s_z = voxels.shape[-3:]
+        X, Y, Z = np.ogrid[0:s_x, 0:s_y, 0:s_z]
+        regions = s_z/step * s_y/step * (X/step) + s_z/step * (Y/step) + Z/step
         if method == 'max':
             res = ndimage.maximum(voxels, labels=regions, index=np.arange(regions.max() + 1))
         elif method == 'mean':
             res = ndimage.mean(voxels, labels=regions, index=np.arange(regions.max() + 1))
-        res.shape = (sx/step, sy/step, sz/step)
+        res.shape = (s_x/step, s_y/step, s_z/step)
         return res
     else:
         res0 = downsample(voxels[0], step, method)
@@ -134,11 +138,11 @@ def max_connected(voxels, distance):
                 component[start_x, start_y, start_z] = True
                 voxels[start_x, start_y, start_z] = False
                 while len(stack) > 0:
-                    x, y, z = stack.pop()
-                    for i in range(x-distance, x+distance + 1):
-                        for j in range(y-distance, y+distance + 1):
-                            for k in range(z-distance, z+distance + 1):
-                                if (i-x)**2+(j-y)**2+(k-z)**2 > distance * distance:
+                    coord_x, coord_y, coord_z = stack.pop()
+                    for i in range(coord_x-distance, coord_x+distance + 1):
+                        for j in range(coord_y-distance, coord_y+distance + 1):
+                            for k in range(coord_z-distance, coord_z+distance + 1):
+                                if (i-coord_x)**2+(j-coord_y)**2+(k-coord_z)**2 > distance * distance:
                                     continue
                                 if voxel_exist(voxels, i, j, k):
                                     voxels[i, j, k] = False
@@ -149,11 +153,13 @@ def max_connected(voxels, distance):
     return max_component
 
 
-def voxel_exist(voxels, x, y, z):
+def voxel_exist(voxels, coord_x, coord_y, coord_z):
     """
     Check if voxels are in given bounds
     """
-    if x < 0 or y < 0 or z < 0 or x >= voxels.shape[0] or y >= voxels.shape[1] or z >= voxels.shape[2]:
+    neg_coords =  coord_x < 0 or coord_y < 0 or coord_z < 0
+    coords_out_of_bounds = coord_coord_x >= voxels.shape[0] or coord_y >= voxels.shape[1] or coord_z >= voxels.shape[2]
+    if neg_coords or coords_out_of_bounds:
         return False
     else:
-        return voxels[x, y, z]
+        return voxels[coord_x, coord_y, coord_z]
