@@ -20,20 +20,27 @@ This tool is a novel framework which generates 3D objects from a probabilistic s
 ## Get started
 ### Develop repository and requirements
 Get docker image
-``` docker pull piliushok48/fse-final-project:latest
+
+```sh
+docker pull piliushok48/fse-final-project:latest
 ```
 Run docker image with common folder '/project'
-``` docker run -it -v /project:/project --net=host piliushok48/fse-final-project
+```sh
+docker run -it -v /project:/project --net=host piliushok48/fse-final-project
 ```
 Change directory
-``` cd project/
+```sh
+cd project/
 ```
 Clone repository
-``` git clone https://github.com/Pils48/fse-final-project
+```sh
+git clone https://github.com/Pils48/fse-final-project
 ```
 Change directory
-``` cd fse-final-project/
+```sh
+cd fse-final-project/
 ```
+
 For vizualization you need packages. Run commands inside docker container
 * `sudo pip install -y numpy `
 * `sudo pip install -y scipy `
