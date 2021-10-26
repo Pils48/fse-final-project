@@ -1,23 +1,24 @@
 """
 VTK functions
 """
-from util import *
+import math
+from util import read_tensor, blocktrans_cen2side, center_of_mass
 import matplotlib.cm
 import vtk
-import math
 
 
 def block_generation(cen_size, color):
-    """ generate a block up to actor stage
-        User may choose to use VTK boxsource implementation, or the polydata implementation
     """
-    cubeMapper = vtk.vtkPolyDataMapper()
-    cubeActor = vtk.vtkActor()
+    generate a block up to actor stage
+    User may choose to use VTK boxsource implementation, or the polydata implementation
+    """
+    cube_mapper = vtk.vtkPolyDataMapper()
+    cube_actor = vtk.vtkActor()
 
-    lx, ly, lz, hx, hy, hz = blocktrans_cen2side(cen_size)
-    vertices = [[lx, ly, lz], [hx, ly, lz], [hx, hy, lz], [lx, hy, lz], [lx, ly, hz], [hx, ly, hz], [hx, hy, hz], [lx, hy, hz]]
+    l_x, l_y, l_z, h_x, h_y, h_z = blocktrans_cen2side(cen_size)
+    vertices = [[l_x, l_y, l_z], [h_x, l_y, l_z], [h_x, h_y, l_z], [l_x, h_y, l_z], [l_x, l_y, h_z], [h_x, l_y, h_z], [h_x, h_y, h_z], [l_x, h_y, h_z]]
 
-    pts =[[0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]]
+    pts = [[0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]]
 
     cube = vtk.vtkPolyData()
     points = vtk.vtkPoints()
@@ -32,19 +33,19 @@ def block_generation(cen_size, color):
             polys.InsertCellPoint(pts[i][j])
     cube.SetPoints(points)
     cube.SetPolys(polys)
-    cubeMapper.SetInput(cube)
-    cubeActor.SetMapper(cubeMapper)
+    cube_mapper.SetInput(cube)
+    cube_actor.SetMapper(cube_mapper)
 
     # set the colors
-    cubeActor.GetProperty().SetColor(np.array(color[:3]))
-    cubeActor.GetProperty().SetAmbient(0.5)
-    cubeActor.GetProperty().SetDiffuse(.5)
-    cubeActor.GetProperty().SetSpecular(0.1)
-    cubeActor.GetProperty().SetSpecularColor(1, 1, 1)
-    cubeActor.GetProperty().SetDiffuseColor(color[:3])
-    # cubeActor.GetProperty().SetAmbientColor(1, 1, 1)
-    # cubeActor.GetProperty().ShadingOn()
-    return cubeActor
+    cube_actor.GetProperty().SetColor(np.array(color[:3]))
+    cube_actor.GetProperty().SetAmbient(0.5)
+    cube_actor.GetProperty().SetDiffuse(.5)
+    cube_actor.GetProperty().SetSpecular(0.1)
+    cube_actor.GetProperty().SetSpecularColor(1, 1, 1)
+    cube_actor.GetProperty().SetDiffuseColor(color[:3])
+    # cube_actor.GetProperty().SetAmbientColor(1, 1, 1)
+    # cube_actor.GetProperty().ShadingOn()
+    return cube_actor
 
 def generate_all_blocks(voxels, threshold=0.1, uniform_size=-1, use_colormap=False):
     """
@@ -75,7 +76,8 @@ def generate_all_blocks(voxels, threshold=0.1, uniform_size=-1, use_colormap=Fal
                         block_size = uniform_size
                     else:
                         block_size = occupancy
-                    actors.append(block_generation([i+0.5, j+0.5, k+0.5, block_size, block_size, block_size], color=(color)))
+                    block = block_generation([i+0.5, j+0.5, k+0.5, block_size, block_size, block_size], color=(color))
+                    actors.append(block)
                     counter = counter + 1
 
     print(counter, "blocks filled")
@@ -141,6 +143,6 @@ def visualization(voxels, threshold, title=None, uniform_size=-1, use_colormap=F
     distance = voxels.shape[0] * 2.8
     height = voxels.shape[2] * 0.85
     rad = math.pi * 0.43 #+ math.pi
-    cam_pos = [center[0] + distance * math.cos(rad), center[1] + distance * math.sin(rad), center[2] + height]
+    cam_pos = [center[0]+distance*math.cos(rad), center[1]+distance*math.sin(rad), center[2]+height]
 
     display(actors, cam_pos, center, (0, 0, 1), title=title)
