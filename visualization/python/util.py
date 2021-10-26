@@ -32,8 +32,7 @@ def sigmoid(z_var, offset=0, ratio=1):
     """
     Sigmoid function
     """
-    s = 1.0 / (1.0 + np.exp(-1.0 * (z_var-offset) * ratio))
-    return s
+    return 1.0 / (1.0 + np.exp(-1.0 * (z_var-offset) * ratio))
 
 ############################################################################
 ### Voxel Utility functions
@@ -157,8 +156,9 @@ def voxel_exist(voxels, coord_x, coord_y, coord_z):
     """
     Check if voxels are in given bounds
     """
-    neg_coords =  coord_x < 0 or coord_y < 0 or coord_z < 0
-    coords_out_of_bounds = coord_coord_x >= voxels.shape[0] or coord_y >= voxels.shape[1] or coord_z >= voxels.shape[2]
+    neg_coords = coord_x < 0 or coord_y < 0 or coord_z < 0
+    b_x, b_y, b_z = voxels.shape
+    coords_out_of_bounds = coord_x >= b_x or coord_y >= b_y or coord_z >= b_z
     if neg_coords or coords_out_of_bounds:
         return False
     else:
