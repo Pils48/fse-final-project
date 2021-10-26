@@ -44,14 +44,14 @@ You can install needed dependecies by yourself if needed:
 * `sudo apt-get install -y vim`
 * `sudo apt-get install -y software-properties-common `
 
-#### Cloning the repository
+### Cloning the repository
 ```sh
 git clone git@github.com:zck119/3dgan-release.git
 cd 3dgan-release
 ```
                                        
 
-#### Downloading pretrained models 
+### Downloading pretrained models 
 For CPU (947 MB):
 ```sh
 ./download_models_cpu.sh
@@ -61,7 +61,7 @@ For GPU (618 MB):
 ./download_models_gpu.sh
 ```
 
-#### Downloading latent vector inputs for demo
+### Downloading latent vector inputs for demo
 ```sh
 ./download_demo_inputs.sh
 ```
