@@ -100,7 +100,7 @@ def display(actors, cam_pos, cam_vocal, cam_up, title=None):
     for actor in actors:
         renderer.AddActor(actor)
     renderer.SetBackground(1, 1, 1)
-    renWin.AddRenderer(renderer)
+    ren_win.AddRenderer(renderer)
 
     camera = vtk.vtkCamera()
     renderer.SetActiveCamera(camera)
@@ -111,17 +111,17 @@ def display(actors, cam_pos, cam_vocal, cam_up, title=None):
     camera.SetViewUp(*cam_up)
     camera.SetPosition(*cam_pos)
 
-    renWin.SetSize(window_size, window_size)
+    ren_win.SetSize(window_size, window_size)
 
     iren = vtk.vtkRenderWindowInteractor()
     style = vtk.vtkInteractorStyleTrackballCamera()
     iren.SetInteractorStyle(style)
     iren.SetRenderWindow(ren_win)
     if title is not None:
-        renWin.SetWindowName(title)
+        ren_win.SetWindowName(title)
 
     renderer.ResetCameraClippingRange()
-    renWin.Render()
+    ren_win.Render()
 
     iren.Initialize()
     iren.Start()
