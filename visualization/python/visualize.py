@@ -61,7 +61,7 @@ if __name__ == '__main__':
         VOXELS[np.logical_not(VOXELS_KEEP)] = 0
 
     # downsample if needed
-    if _FACTOR > 1:
+    if FACTOR > 1:
         print("==> Performing downsample: factor: "+str(FACTOR)+" method: "+METHOD)
         VOXELS = downsample(VOXELS, FACTOR, method=METHOD)
         print("Done")
