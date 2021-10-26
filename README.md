@@ -55,6 +55,9 @@ For GPU (618 MB):
 ./download_demo_inputs.sh
 ```
 
+## Docker Container Installation
+26/10/2021: There are [Docker container](https://github.com/Pils48/fse-final-project/blob/master/docker/Dockerfile) and a [shell script](https://github.com/Pils48/fse-final-project/blob/master/docker/build_docker.sh) to create instance.
+
 ## Guide
 #### Synthesizing shapes (`main.lua`)
 We show how to synthesize shapes with our pre-trained models. The file (`main.lua`) has the following options.
