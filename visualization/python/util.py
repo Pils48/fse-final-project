@@ -25,33 +25,36 @@ def read_tensor(filename, varname='voxels'):
     return result
 
 def sigmoid(z, offset=0, ratio=1):
+    """
+    Sigmoid function
+    """
     s = 1.0 / (1.0 + np.exp(-1.0 * (z-offset) * ratio))
     return s
 
 ############################################################################
 ### Voxel Utility functions
 ############################################################################
-def blocktrans_cen2side(cen_size):
+def blocktrans_cen2side(center_size):
     """ Convert from center rep to side rep
     In center rep, the 6 numbers are center coordinates, then size in 3 dims
     In side rep, the 6 numbers are lower x, y, z, then higher x, y, z """
-    cx = float(cen_size[0])
-    cy = float(cen_size[1])
-    cz = float(cen_size[2])
-    sx = float(cen_size[3])
-    sy = float(cen_size[4])
-    sz = float(cen_size[5])
-    lx, ly, lz = cx-sx/2., cy-sy/2., cz-sz/2.
-    hx, hy, hz = cx+sx/2., cy+sy/2., cz+sz/2.
-    return [lx, ly, lz, hx, hy, hz]
+    center_x = float(center_size[0])
+    center_y = float(center_size[1])
+    center_z = float(center_size[2])
+    side_x = float(center_size[3])
+    side_y = float(center_size[4])
+    side_z = float(center_size[5])
+    lower_x, lower_y, lower_z = center_x-side_x/2., center_y-side_y/2., center_z-side_z/2.
+    high_x, high_y, high_z = center_x+side_x/2., center_y+side_y/2., center_z+side_z/2.
+    return [lower_x, lower_y, lower_z, high_x, high_y, high_z]
 
 def blocktrans_side2cen6(side_size):
     """ Convert from side rep to center rep
     In center rep, the 6 numbers are center coordinates, then size in 3 dims
     In side rep, the 6 numbers are lower x, y, z, then higher x, y, z """
-    lx, ly, lz = float(side_size[0]), float(side_size[1]), float(side_size[2])
-    hx, hy, hz = float(side_size[3]), float(side_size[4]), float(side_size[5])
-    return [(lx+hx)*.5, (ly+hy)*.5, (lz+hz)*.5, abs(hx-lx), abs(hy-ly), abs(hz-lz)]
+    lower_x, lower_y, lower_z = float(side_size[0]), float(side_size[1]), float(side_size[2])
+    high_x, high_y, high_z = float(side_size[3]), float(side_size[4]), float(side_size[5])
+    return [(lower_x+high_x)*.5, (lower_y+high_y)*.5, (lower_z+high_z)*.5, abs(high_x-lower_x), abs(high_y-lower_y), abs(high_z-lower_z)]
 
 
 def center_of_mass(voxels, threshold=0.1):
@@ -112,16 +115,16 @@ def max_connected(voxels, distance):
     assert distance > 0
     max_component = np.zeros(voxels.shape, dtype=bool)
     voxels = np.copy(voxels)
-    for startx in xrange(voxels.shape[0]):
-        for starty in xrange(voxels.shape[1]):
-            for startz in xrange(voxels.shape[2]):
-                if not voxels[startx, starty, startz]:
+    for start_x in xrange(voxels.shape[0]):
+        for start_y in xrange(voxels.shape[1]):
+            for start_z in xrange(voxels.shape[2]):
+                if not voxels[start_x, start_y, start_z]:
                     continue
                 # start a new component
                 component = np.zeros(voxels.shape, dtype=bool)
-                stack = [[startx, starty, startz]]
-                component[startx, starty, startz] = True
-                voxels[startx, starty, startz] = False
+                stack = [[start_x, start_y, start_z]]
+                component[start_x, start_y, start_z] = True
+                voxels[start_x, start_y, start_z] = False
                 while len(stack) > 0:
                     x, y, z = stack.pop()
                     for i in xrange(x-distance, x+distance + 1):
