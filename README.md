@@ -67,7 +67,10 @@ For GPU (618 MB):
 ```
 
 ## Docker Container Installation
-26/10/2021: There are [Docker container](https://github.com/Pils48/fse-final-project/blob/master/docker/Dockerfile) and a [shell script](https://github.com/Pils48/fse-final-project/blob/master/docker/build_docker.sh) to create instance.
+To use docker run the following shell scripts:
+* `./install_docker.sh` in case you don't have docker installed
+* `./build_docker.sh`
+* `./run_docker.sh`
 
 ## Guide
 #### Synthesizing shapes (`main.lua`)
