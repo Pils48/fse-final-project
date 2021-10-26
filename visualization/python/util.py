@@ -10,7 +10,7 @@ def read_tensor(filename, varname='voxels'):
         print(".mat file only has these matrices:")
         for var in mats:
             print(var)
-        assert False 
+        assert False
 
     voxels = mats[varname]
     dims = voxels.shape
@@ -51,11 +51,11 @@ def blocktrans_side2cen6(side_size):
     In side rep, the 6 numbers are lower x, y, z, then higher x, y, z """
     lx, ly, lz = float(side_size[0]), float(side_size[1]), float(side_size[2])
     hx, hy, hz = float(side_size[3]), float(side_size[4]), float(side_size[5])
-    return [(lx+hx)*.5,(ly+hy)*.5,(lz+hz)*.5,abs(hx-lx),abs(hy-ly),abs(hz-lz)]
+    return [(lx+hx)*.5, (ly+hy)*.5, (lz+hz)*.5, abs(hx-lx), abs(hy-ly), abs(hz-lz)]
 
 
 def center_of_mass(voxels, threshold=0.1):
-    """ Calculate the center of mass for the current object. 
+    """ Calculate the center of mass for the current object.
     Voxels with occupancy less than threshold are ignored
     """
     assert voxels.ndim == 3
@@ -66,8 +66,8 @@ def center_of_mass(voxels, threshold=0.1):
     total = voxels_filtered.sum()
     if total == 0:
         print('threshold too high for current object.')
-        return [length / 2 for length in voxels.shape]   
-    
+        return [length / 2 for length in voxels.shape]
+
     # calculate center of mass
     center[0] = np.multiply(voxels_filtered.sum(1).sum(1), np.arange(voxels.shape[0])).sum()/total
     center[1] = np.multiply(voxels_filtered.sum(0).sum(1), np.arange(voxels.shape[1])).sum()/total
@@ -77,8 +77,8 @@ def center_of_mass(voxels, threshold=0.1):
 
 def downsample(voxels, step, method='max'):
     """
-    downsample a voxels matrix by a factor of step. 
-    downsample method options: max/mean 
+    downsample a voxels matrix by a factor of step.
+    downsample method options: max/mean
     same as a pooling
     """
     assert step > 0
@@ -106,10 +106,10 @@ def downsample(voxels, step, method='max'):
         return res
 
 def max_connected(voxels, distance):
-    """ Keep the max connected component of the voxels (a boolean matrix). 
-    distance is the distance considered as neighbors, i.e. if distance = 2, 
+    """ Keep the max connected component of the voxels (a boolean matrix).
+    distance is the distance considered as neighbors, i.e. if distance = 2,
     then two blocks are considered connected even with a hole in between"""
-    assert(distance > 0)
+    assert distance > 0
     max_component = np.zeros(voxels.shape, dtype=bool)
     voxels = np.copy(voxels)
     for startx in xrange(voxels.shape[0]):
@@ -135,11 +135,11 @@ def max_connected(voxels, distance):
                                     stack.append([i,j,k])
                 if component.sum() > max_component.sum():
                     max_component = component
-    return max_component 
+    return max_component
 
 
 def voxel_exist(voxels, x,y,z):
     if x < 0 or y < 0 or z < 0 or x >= voxels.shape[0] or y >= voxels.shape[1] or z >= voxels.shape[2]:
         return False
-    else :
+    else:
         return voxels[x,y,z]
