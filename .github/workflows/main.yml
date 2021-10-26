@@ -22,9 +22,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
       - run: ./download_demo_inputs.sh && ./download_models_cpu.sh && ./download_models_gpu.sh
       
-      - run: sh docker/pull_docker.sh
+      - run: sudo sh docker/pull_docker.sh
 
-      - run: sh docker/run_docker.sh
+      - run: sudo sh docker/run_docker.sh
