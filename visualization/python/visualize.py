@@ -41,11 +41,11 @@ if __name__ == '__main__':
     assert DOWNSAMPLE_METHOD in ('max', 'mean')
 
     # read file
-    print("==> Reading input voxel file: "+filename)
-    voxels_raw = read_tensor(filename, matname)
+    print("==> Reading input voxel file: "+FILENAME)
+    voxels_raw = read_tensor(FILENAME, MATNAME)
     print("Done")
 
-    voxels = voxels_raw[ind]
+    voxels = voxels_raw[IND]
 
     # keep only max connected component
     print("Looking for max connected component")
